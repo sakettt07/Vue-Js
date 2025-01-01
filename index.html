@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div id="app">
-        <h1>{{message}}</h1>
+      <h1 class="text-4xl text-yellow-500 bg-black">{{message}}</h1>
+      <button
+        class="bg-green-400 py-3 px-5 border border-black hover:bg-red-600 hover:text-white"
+        @click="clickme"
+      >
+        Click me
+      </button>
     </div>
 
     <script>
-        const app=Vue.createApp({
-            data(){
-                return{
-                    message:"Hello  from vue!"
-                }
-            }
-        });
-        app.mount("#app");
+      const app = Vue.createApp({
+        data() {
+          return {
+            message: "Hello  from vue!",
+          };
+        },
+        methods: {
+          clickme() {
+            console.log("Hello from vue!");
+            this.message = "Hey this is me Saket";
+          },
+        },
+      });
+      app.mount("#app");
     </script>
-    
-</body>
+  </body>
 </html>
