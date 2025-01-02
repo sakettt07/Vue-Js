@@ -9,11 +9,13 @@ export default {
     const incrementCnt=()=>{
       count.value++;
     }
+    const status='pending';
 
 
     return {
       msg,
       count,
+      status,
       incrementCnt
     };
   },
@@ -38,6 +40,10 @@ export default {
     <p>Its your boy {{ msg }}</p>
     <button class="p-3 bg-red-400 text-white text-[20px]" @click="incrementCnt">Like</button>
     <p class="text-white text-[30px]">Increase the like for the badshah like Count :{{ count }}</p>
+    <!-- The below is the use of the directive in the vue js for the conditional rendering -->
+    <p v-if="status==='active'">This new update is awesome</p>
+    <p v-else-if="status ==='pending'">There are some updates which are coming and pending.</p>
+    <p v-else>User is inactive</p>
   </div>
 </template>
 
