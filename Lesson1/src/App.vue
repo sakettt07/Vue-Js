@@ -10,12 +10,14 @@ export default {
       count.value++;
     }
     const status='pending';
+    const tasks=["task one", "task two", "task three"];
 
 
     return {
       msg,
       count,
       status,
+      tasks,
       incrementCnt
     };
   },
@@ -23,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-red-800 w-full min-h-screen">
+  <div class="bg-black w-full min-h-screen">
     <h1
       class="text-white text-[30px] text-center pt-5 p-3"
       style="font-family: 'CustomFont', sans-serif"
@@ -41,9 +43,10 @@ export default {
     <button class="p-3 bg-red-400 text-white text-[20px]" @click="incrementCnt">Like</button>
     <p class="text-white text-[30px]">Increase the like for the badshah like Count :{{ count }}</p>
     <!-- The below is the use of the directive in the vue js for the conditional rendering -->
-    <p v-if="status==='active'">This new update is awesome</p>
-    <p v-else-if="status ==='pending'">There are some updates which are coming and pending.</p>
-    <p v-else>User is inactive</p>
+    <p class="text-white" v-if="status==='active'">This new update is awesome</p>
+    <p class="text-white" v-else-if="status ==='pending'">There are some updates which are coming and pending.</p>
+    <p class="text-white" v-else>User is inactive</p>
+    <li class="text-white" v-for="task in tasks" :key="task">{{ task }}</li>
   </div>
 </template>
 
