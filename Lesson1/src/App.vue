@@ -1,31 +1,33 @@
 <script>
-  import { ref } from "vue";
+import { ref } from "vue";
 export default {
   setup() {
-    console.log("Hey gamers how are you doing");
     const msg = ref("Badshaah");
     const count = ref(0);
 
-    const incrementCnt=()=>{
+    const incrementCnt = () => {
       count.value++;
-    }
-    const status='pending';
-    const tasks=["task one", "task two", "task three"];
-
+    };
+    const status = "pending";
+    const tasks = ["task one", "task two", "task three"];
+    const link = "http://google.com";
+    const ytlink="http://youtube.com";
 
     return {
       msg,
       count,
       status,
       tasks,
-      incrementCnt
+      incrementCnt,
+      link,
+      ytlink,
     };
   },
 };
 </script>
 
 <template>
-  <div class="bg-black w-full min-h-screen">
+  <div class="p-3 bg-black w-full min-h-screen">
     <h1
       class="text-white text-[30px] text-center pt-5 p-3"
       style="font-family: 'CustomFont', sans-serif"
@@ -40,13 +42,45 @@ export default {
       />
     </div>
     <p>Its your boy {{ msg }}</p>
-    <button class="p-3 bg-red-400 text-white text-[20px]" @click="incrementCnt">Like</button>
-    <p class="text-white text-[30px]">Increase the like for the badshah like Count :{{ count }}</p>
-    <!-- The below is the use of the directive in the vue js for the conditional rendering -->
-    <p class="text-white" v-if="status==='active'">This new update is awesome</p>
-    <p class="text-white" v-else-if="status ==='pending'">There are some updates which are coming and pending.</p>
-    <p class="text-white" v-else>User is inactive</p>
-    <li class="text-white" v-for="task in tasks" :key="task">{{ task }}</li>
+    <button class="p-3 bg-red-400 text-white text-[20px]" @click="incrementCnt">
+      Like
+    </button>
+    <div class="p-3">
+      <p class="text-white text-[30px]">
+        Increase the like for the badshah like Count :{{ count }}
+      </p>
+      <!-- The below is the use of the directive in the vue js for the conditional rendering -->
+      <p class="text-white" v-if="status === 'active'">
+        This new update is awesome
+      </p>
+      <p class="text-white" v-else-if="status === 'pending'">
+        There are some updates which are coming and pending.
+      </p>
+      <p class="text-white" v-else>User is inactive</p>
+      <li class="text-white mb-4" v-for="task in tasks" :key="task">
+        {{ task }}
+      </li>
+
+      <!-- below is the use of bind directive which is use to bind or connect the links to the tags
+     used target blank for the next page and noopener to avoid tabnabbing attack -->
+      <div class="flex items-center">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-8 py-4 bg-purple-600 text-white text-center"
+          v-bind:href="link"
+          >Click me for more information</a
+        >
+
+        <a
+        target="_blank"
+          rel="noopener noreferrer"
+          class="text-white py-4 items-center ml-2 px-8 bg-yellow-600"
+          :href="ytlink"
+          >Hey how you Doin ?</a
+        >
+      </div>
+    </div>
   </div>
 </template>
 
