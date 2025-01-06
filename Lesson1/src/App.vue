@@ -1,4 +1,5 @@
 <script>
+// following the composition API method.
 import { ref } from "vue";
 export default {
   setup() {
@@ -8,10 +9,22 @@ export default {
     const incrementCnt = () => {
       count.value++;
     };
-    const status = "pending";
+    const status = ref('pending');
     const tasks = ["task one", "task two", "task three"];
     const link = "http://google.com";
     const ytlink="http://youtube.com";
+
+    const toggleStatus=()=>{
+      if(status.value==='pending'){
+        status.value='inactive';
+      }
+      else if(status.value==='inactive'){
+        status.value='active';
+      }
+      else{
+        status.value='pending';
+      }
+    }
 
     return {
       msg,
@@ -20,6 +33,7 @@ export default {
       tasks,
       incrementCnt,
       link,
+      toggleStatus,
       ytlink,
     };
   },
@@ -80,6 +94,9 @@ export default {
           >Hey how you Doin ?</a
         >
       </div>
+      <h1 class="text-white mt-4">Your status is : {{ status }}</h1>
+      <br>
+      <button class="bg-white p-2" v-on:click="toggleStatus">Change Status</button>
     </div>
   </div>
 </template>
