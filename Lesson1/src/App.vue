@@ -1,8 +1,8 @@
-<script>
+<script setup>
 // following the composition API method.
 import { ref } from "vue";
-export default {
-  setup() {
+import FormComp from "./components/Form.vue";
+
     const msg = ref("Badshaah");
     const count = ref(0);
 
@@ -25,23 +25,10 @@ export default {
         status.value='pending';
       }
     }
-
-    return {
-      msg,
-      count,
-      status,
-      tasks,
-      incrementCnt,
-      link,
-      toggleStatus,
-      ytlink,
-    };
-  },
-};
 </script>
 
 <template>
-  <div class="p-3 bg-black w-full min-h-screen">
+  <div class="p-3 bg-zinc-500 w-full min-h-screen">
     <h1
       class="text-white text-[30px] text-center pt-5 p-3"
       style="font-family: 'CustomFont', sans-serif"
@@ -97,6 +84,7 @@ export default {
       <h1 class="text-white mt-4">Your status is : {{ status }}</h1>
       <br>
       <button class="bg-white p-2" v-on:click="toggleStatus">Change Status</button>
+    <FormComp />
     </div>
   </div>
 </template>
