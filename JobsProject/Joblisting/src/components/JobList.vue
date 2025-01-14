@@ -1,8 +1,9 @@
 <script setup>
-import { ref,defineProps } from 'vue'
-import jobsData from '@/jobs.json'
+import {reactive, ref,defineProps,onMounted } from 'vue'
 import JobCard from './JobCard.vue';
 import { RouterLink } from 'vue-router';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+import axios from 'axios';
 defineProps({
     limit:Number,
     showButton:{
@@ -12,16 +13,37 @@ defineProps({
 })
 
 // Access the jobs array from the imported data
-const jobs = ref(jobsData.jobs)
+// const jobs = ref([]); /// this is the ref method for making it a reactive element.
+
+// now using the same by using the reactive method.
+const state=reactive({
+  jobs:[],
+  isLoading:true,
+})
+
+onMounted(async()=>{
+  try {
+    const response=await axios.get('/api/jobs');
+    state.jobs=response.data;
+  } catch (error) {
+    console.error('Error while fetching the jobs');
+  }finally{
+    state.isLoading=false;
+  }
+})
 </script>
 
 <template>
   <section class="bg-blue-50 px-4 py-10">
     <div class="container-xl lg:container m-auto">
       <h2 class="text-3xl font-bold text-green-500 mb-4 text-center">Browse jobs</h2>
-      <div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" v-if="jobs?.length">
-          <JobCard v-for="job in jobs.slice(0,limit || jobs.length)" :key="job.id" :job="job" />
+      <!--  showing the loader spinner while loading is true -->
+        <div v-if="state.isLoading" class="text-center text-gray-500 py-6">
+          <PulseLoader />
+        </div>
+      <div v-else>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" v-if="state.jobs?.length">
+          <JobCard v-for="job in state.jobs.slice(0,limit || state.jobs.length)" :key="job.id" :job="job" />
         </div>
         <div v-else>No jobs available at the moment</div>
       </div>
