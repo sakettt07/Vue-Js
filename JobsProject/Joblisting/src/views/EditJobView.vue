@@ -1,10 +1,18 @@
+<!-- TODO in this vue file we are adding the update job ednpoint -->
+ <!-- Steps to perform that
+  1. fetch the job which is to updated from the get request and automate the form with the help of that for easy edit.
+  2. similarly as we have made the adding job end point we can use the same function but now we will pass the updated data object as the parameter. -->
 <script setup>
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import BackButton from '@/components/BackButton.vue';
 import { useToast } from 'vue-toastification';
-const router = useRouter()
+
+const router = useRouter();
+const route=useRoute();
+
+const jobId=route.params.id;
 
 const form = reactive({
   type: 'Full-Time',
@@ -18,10 +26,14 @@ const form = reactive({
     contactEmail: '',
     contactPhone: '',
   },
+});
+const state=reactive({
+  jobs:{},
+  isLoading:true
 })
 const toast=useToast();
 const handleSubmit = async () => {
-  const newJob = {
+  const updateJob = {
     type: form.type,
     title: form.title,
     description: form.description,
@@ -35,14 +47,37 @@ const handleSubmit = async () => {
     },
   }
   try {
-    const response = await axios.post('/api/jobs/', newJob)
-    toast.success('Job submitted successfully!', { duration: 3000 });
+    const response = await axios.put(`/api/jobs/${jobId}`, updateJob)
+    console.log(response);
+    toast.success('Job updated successfully!', { duration: 3000 });
     router.push(`/jobs/${response.data.id}`)
   } catch (error) {
     console.error('Error while submitting the job:', error.response?.data || error.message)
     toast.error('Error submitting the job, please try again later.', { duration: 3000 });
   }
 }
+// to populate the job data into the form when the component loads.
+onMounted(async()=>{
+  try{
+    const response=await axios.get(`/api/jobs/${jobId}`);
+    state.jobs=response.data;
+    form.type=state.jobs.type;
+    form.title=state.jobs.title;
+    form.description=state.jobs.description;
+    form.salary=state.jobs.salary;
+    form.location=state.jobs.location;
+    form.company.name=state.jobs.company.name;
+    form.company.description=state.jobs.company.description;
+    form.company.contactEmail=state.jobs.company.contactEmail;
+    form.company.contactPhone=state.jobs.company.contactPhone;
+  }catch(error){
+    console.error('Error while fetching job:', error.response?.data || error.message)
+    toast.error('Error fetching the job, please try again later.', { duration: 3000 });
+  }
+  finally{
+    state.isLoading=false;
+  }
+})
 </script>
 
 <template>

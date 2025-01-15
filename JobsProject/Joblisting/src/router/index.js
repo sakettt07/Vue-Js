@@ -36,8 +36,8 @@ const router=createRouter({
             component:AddJobView,
         },
         {
-            path:'/jobs/update/:id',
-            name:'updatejobpage',
+            path:'/jobs/edit/:id',
+            name:'editjobpage',
             component:EditJobView,
         },
     ],
